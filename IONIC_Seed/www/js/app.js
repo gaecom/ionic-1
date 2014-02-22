@@ -20,7 +20,8 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers'])
     .state('tab', {
       url: "/tab",
       abstract: true,
-      templateUrl: "templates/tabs.html"
+      templateUrl: "templates/tabs.html",
+      controller: "NavCtrl"
     })
 
     // the pet tab has its own child nav-view and history

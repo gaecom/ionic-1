@@ -12,4 +12,13 @@ angular.module('starter.controllers', [])
 .controller('PetDetailCtrl', function($scope, $stateParams, PetService) {
   // "Pets" is a service returning mock data (services.js)
   $scope.pet = PetService.get($stateParams.petId);
-});
+})
+
+    // A simple controller that shows a tapped item's data
+.controller('NavCtrl', function($scope, $stateParams, PetService) {
+        // "Pets" is a service returning mock data (services.js)
+        $scope.$on("tab.shown", function (){
+
+            console.log("showing")
+        })
+    });

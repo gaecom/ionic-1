@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+</head>
+<body>
+alert
+<script>
+
+    var url = "http://54.213.134.12:8088/alarms";
+    var sock = new SockJS(url);
+
+    sock.onopen    = function()  {alert('Connected.');};
+    sock.onmessage = function(e) {alert(e.data);};
+    sock.onclose   = function()  {alert('Closing Connection.');};
+</script>
+
+<p id="values">
+
+</p>
+</body>
+</html>

@@ -1,9 +1,9 @@
-angular.module('starter.services', [])
+var services = angular.module('starter.services', []);
 
 /**
  * A simple example service that returns some data.
  */
-.factory('PetService', function() {
+services.factory('PetService', function() {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
@@ -28,7 +28,7 @@ angular.module('starter.services', [])
 
 
 
-angular.module('services.sockjs').factory
+services.factory
     ( 'socketService'
         , [ '$rootScope'
         , '$log'
@@ -41,8 +41,11 @@ angular.module('services.sockjs').factory
                 // Get reference to port.
                 var port = (location.port != 80) ? ':' + location.port : '';
 
-                socket = new SockJS
-                ( '//' + document.domain + '' + port + '/api'
+                socket = new SockJS('http://54.213.134.12:8088/alarms');
+                //( '//' + document.domain + '' + port + '/api'
+
+
+                /*( 'http://54.213.134.12:8088/alarms'
                     , ''
                     , { 'debug':true
                         , 'devel' : true
@@ -57,7 +60,7 @@ angular.module('services.sockjs').factory
                             ]
                     }
                 );
-
+*/
                 /**
                  * ## Data interaction hooks
                  *
@@ -69,7 +72,7 @@ angular.module('services.sockjs').factory
                     service.open = true;
                     service.timesOpened++;
                     // Attempted to connect. Note timestamp.
-                    connectTimeStamps.push( new Date().getTime() );
+                   // connectTimeStamps.push( new Date().getTime() );
 
                     $rootScope.$broadcast( 'SOCKET_CLOSED' );
 

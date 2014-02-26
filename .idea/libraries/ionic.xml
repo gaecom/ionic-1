@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="ionic" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/IONIC_Todo/www/lib/js/ionic.js" />
+        <item url="file://$PROJECT_DIR$/IONIC_Todo/www/lib/js/ionic.bundle.js" />
+        <item url="file://$PROJECT_DIR$/IONIC_Todo/www/lib/js/ionic-angular.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/IONIC_Todo/www/lib/js/ionic.js" />
+      <root url="file://$PROJECT_DIR$/IONIC_Todo/www/lib/js/ionic.bundle.js" />
+      <root url="file://$PROJECT_DIR$/IONIC_Todo/www/lib/js/ionic-angular.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

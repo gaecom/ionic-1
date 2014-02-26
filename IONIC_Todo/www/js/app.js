@@ -3,21 +3,22 @@
  */
 var app = angular.module('todo', ['ionic']);
 
-app.controller("TaskCtrl",function($scope, $ionicModal){
+app.controller("TaskCtrl", function ($scope, $ionicModal) {
 
     var tasks = [
         {
-            title:"Task 1"
+            title: "Task 1"
         },
         {
-            title:"Task 2"
-        }];
+            title: "Task 2"
+        }
+    ];
 
     $scope.tasks = tasks;
 
 
     // Create and load the Modal
-    $ionicModal.fromTemplateUrl('newTask.html', function(modal) {
+    $ionicModal.fromTemplateUrl('newTask.html', function (modal) {
         $scope.taskModal = modal;
     }, {
         scope: $scope,
@@ -25,8 +26,17 @@ app.controller("TaskCtrl",function($scope, $ionicModal){
     });
 
 
-    $scope.newTask = function ()
-    {
+    $scope.newTask = function () {
         $scope.taskModal.show();
+    };
+
+    $scope.closeNewTask = function(){
+        $scope.taskModal.hide();
+    }
+
+    $scope.createTask = function (task){
+
+        $scope.tasks.push({title:task.title});
+        $scope.taskModal.hide();
     }
 })

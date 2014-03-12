@@ -1,6 +1,11 @@
 /**
  * Created by meme on 2/25/14.
+ *
+ *
  */
+
+var sock = new SockJS('http://54.213.134.12:8088/alarms');
+
 var app = angular.module('todo', ['ionic']);
 
 
@@ -38,6 +43,55 @@ app.factory("Projects", function () {
 
 app.controller("TaskCtrl", function ($scope, $ionicModal, Projects,$timeout) {
 
+
+    var alarmCount;
+    $scope.inAlarm= false;
+    $scope.connected = false;
+
+
+
+    sock.onopen = function () {
+        console.log("Connected...")
+        $scope.connected = true;
+        $scope.$apply();
+    };
+    sock.onmessage = function (e) {
+
+        console.log("Got Message...")
+
+        alarmCount  = parseInt(e.data);
+
+
+        if( alarmCount > 0)
+        {
+            $scope.inAlarm = true;
+            //alert("alarms");
+
+        }
+        else
+        {
+            $scope.inAlarm = false;
+            //alert("no alarms");
+
+        }
+        $scope.$apply();
+
+    };
+    sock.onclose = function () {
+
+        console.log("Lost Connection..")
+        $scope.connected = false;
+        $scope.$apply();
+        setTimeout(reconnectSockjs, 2000);
+
+    };
+
+
+    var reconnectSockjs = function ()
+    {
+        console.log("Reconnecting..")
+        sock = new SockJS('http://54.213.134.12:8088/alarms');
+    }
 
     var createProject = function (projectTitle)
     {
@@ -92,6 +146,7 @@ app.controller("TaskCtrl", function ($scope, $ionicModal, Projects,$timeout) {
 
     $scope.newTask = function () {
         $scope.taskModal.show();
+        $scope.inAlarm = true;
     };
 
     $scope.closeNewTask = function () {

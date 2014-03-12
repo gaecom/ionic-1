@@ -8,6 +8,7 @@
     <link href="lib/css/ionic.css" rel="stylesheet">
 
     <script src="lib/js/ionic.bundle.js"></script>
+    <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
     <!--<script src="templates/newTask.html"></script>-->
 
     <!-- Needed for Cordova/PhoneGap (will be a 404 during development) -->
@@ -25,10 +26,20 @@
             <button class="button button-icon" ng-click="toggleProjects()">
                 <i class="icon ion-navicon"></i>
             </button>
-            <h1 class="title">{{activeProject.title}}</h1>
+
+
+          <!--  <h1 class="title">{{activeProject.title}}</h1>-->
+
+
             <!-- New Task button-->
-            <button class="button button-icon" ng-click="newTask()">
+       <!--     <button class="button button-icon" ng-click="newTask()">
                 <i class="icon ion-compose"></i>
+            </button>-->
+            <button class="button button-icon">
+                <i ng-class="{'icon ion-android-alarm':inAlarm}"></i>
+            </button>
+            <button class="button button-icon">
+                <i ng-class="{'icon ion-android-wifi':connected}"></i>
             </button>
         </header>
         <ion-content has-header="true" scroll="false">

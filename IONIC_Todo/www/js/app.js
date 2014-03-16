@@ -19,57 +19,85 @@ app.factory("Projects", function () {
 
             return [];
         },
-        save: function (projects)
-        {
-            window.localStorage["projects"]= angular.toJson(projects);
+        save: function (projects) {
+            window.localStorage["projects"] = angular.toJson(projects);
         },
-        newProject: function (projectName)
-        {
+        newProject: function (projectName) {
             return {
-                title:projectName,
+                title: projectName,
                 tasks: []
             }
         },
-        getLastActiveIndex: function ()
-        {
+        getLastActiveIndex: function () {
             return parseInt(window.localStorage["lastActiveIndex"]) || 0;
         },
-        setLastActiveIndex: function (index)
-        {
+        setLastActiveIndex: function (index) {
             window.localStorage["lastActiveIndex"] = index;
         }
     }
 });
 
-app.controller("TaskCtrl", function ($scope, $ionicModal, Projects,$timeout) {
+app.controller("TaskCtrl", function ($scope, $http, $ionicModal, Projects, $timeout) {
 
 
     var alarmCount;
-    $scope.inAlarm= false;
+    var pingin;
+    $scope.inAlarm = false;
     $scope.connected = false;
 
+    sock.onmessage = onMessage;
+    sock.onopen = onOpen;
+    sock.onclose = onClose;
 
 
-    sock.onopen = function () {
+
+
+    function checkConnection() {
+        $http({method: "GET", url: "http://54.213.134.12:8088/ping"})
+            .success(function (data, status, headers, config) {
+
+
+                if ($scope.connected) {
+                    //do nothing you are already connected/
+                }
+                else {
+                    setTimeout(reconnectSockjs.bind(null, onMessage, onOpen, onClose), 2000);
+
+                }
+
+                console.log("got ping");
+
+            }).error(function (data, status, headers, config) {
+
+                    $scope.connected = false;
+                    console.log("np ping");
+
+            });
+    }
+
+    function onOpen() {
+
+
         console.log("Connected...")
         $scope.connected = true;
+        pingin = setInterval(checkConnection, 5000);
         $scope.$apply();
     };
-    sock.onmessage = function (e) {
-
-        console.log("Got Message...")
-
-        alarmCount  = parseInt(e.data);
 
 
-        if( alarmCount > 0)
-        {
+    function onMessage(e) {
+
+        console.log("Got Message..." + e.data)
+
+        alarmCount = parseInt(e.data);
+
+
+        if (alarmCount > 0) {
             $scope.inAlarm = true;
             //alert("alarms");
 
         }
-        else
-        {
+        else {
             $scope.inAlarm = false;
             //alert("no alarms");
 
@@ -77,46 +105,48 @@ app.controller("TaskCtrl", function ($scope, $ionicModal, Projects,$timeout) {
         $scope.$apply();
 
     };
-    sock.onclose = function () {
+
+    function onClose() {
 
         console.log("Lost Connection..")
         $scope.connected = false;
         $scope.$apply();
-        setTimeout(reconnectSockjs, 2000);
+        setTimeout(reconnectSockjs.bind(null, onMessage, onOpen, onClose), 2000);
+        clearInterval(pingin);
+
 
     };
 
 
-    var reconnectSockjs = function ()
-    {
+    var reconnectSockjs = function (message, open, close) {
         console.log("Reconnecting..")
+
         sock = new SockJS('http://54.213.134.12:8088/alarms');
+        sock.onmessage = message;
+        sock.onopen = open;
+        sock.onclose = close;
     }
 
-    var createProject = function (projectTitle)
-    {
-         var project =  Projects.newProject(projectTitle);
-         $scope.projects.push(project);
-         Projects.save($scope.projects);
-         $scope.selectProject(project, $scope.projects.length -1);
+    var createProject = function (projectTitle) {
+        var project = Projects.newProject(projectTitle);
+        $scope.projects.push(project);
+        Projects.save($scope.projects);
+        $scope.selectProject(project, $scope.projects.length - 1);
     }
 
     $scope.projects = Projects.all();
     $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
 
 
-    $scope.newProject = function (projectName)
-    {
+    $scope.newProject = function (projectName) {
         var p = prompt("Create Project");
 
-        if(p)
-        {
+        if (p) {
             createProject(p);
         }
     }
 
-    $scope.selectProject = function(p,index)
-    {
+    $scope.selectProject = function (p, index) {
         $scope.activeProject = p;
         Projects.setLastActiveIndex(index);
         $scope.sideMenuController.close();
@@ -136,7 +166,7 @@ app.controller("TaskCtrl", function ($scope, $ionicModal, Projects,$timeout) {
 
 
     // Create and load the Modal
-    $ionicModal.fromTemplateUrl('newTask.html', function (modal) {
+    $ionicModal.fromTemplateUrl('views/modal.html', function (modal) {
         $scope.taskModal = modal;
     }, {
         scope: $scope,
@@ -153,15 +183,14 @@ app.controller("TaskCtrl", function ($scope, $ionicModal, Projects,$timeout) {
         $scope.taskModal.hide();
     }
 
-    $scope.toggleProjects = function() {
+    $scope.toggleProjects = function () {
         $scope.sideMenuController.toggleLeft();
     };
 
 
     $scope.createTask = function (task) {
 
-        if( !$scope.activeProject || !task)
-        {
+        if (!$scope.activeProject || !task) {
             return;
         }
 
@@ -173,18 +202,17 @@ app.controller("TaskCtrl", function ($scope, $ionicModal, Projects,$timeout) {
     }
 
 
-    $timeout(function() {
-        if($scope.projects.length == 0) {
-            while(true) {
+    $timeout(function () {
+        if ($scope.projects.length == 0) {
+            while (true) {
                 var projectTitle = prompt('Your first project title:');
-                if(projectTitle) {
+                if (projectTitle) {
                     createProject(projectTitle);
                     break;
                 }
             }
         }
     });
-
 
 
 })

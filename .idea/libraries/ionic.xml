@@ -8,9 +8,9 @@
       </sourceFilesUrls>
     </properties>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/IONIC_Todo/www/lib/js/ionic.js" />
-      <root url="file://$PROJECT_DIR$/IONIC_Todo/www/lib/js/ionic.bundle.js" />
-      <root url="file://$PROJECT_DIR$/IONIC_Todo/www/lib/js/ionic-angular.js" />
+      <root url="file://$PROJECT_DIR$/UX_Energy/www/lib/js/ionic.js" />
+      <root url="file://$PROJECT_DIR$/UX_Energy/www/lib/js/ionic.bundle.js" />
+      <root url="file://$PROJECT_DIR$/UX_Energy/www/lib/js/ionic-angular.js" />
     </CLASSES>
     <SOURCES />
   </library>

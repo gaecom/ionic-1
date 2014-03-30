@@ -1,0 +1,31 @@
+<view title="'Meters'">
+
+    <!--<ion-pane ion-side-menu-content>-->
+
+        <!--<header class="bar bar-header bar-dark">-->
+            <!--<button class="button button-icon" >-->
+                <!--<i class="icon ion-navicon"></i>-->
+            <!--</button>-->
+            <!--</header>-->
+    <!--</ion-pane>-->
+
+
+    <div class="bar bar-subheader item-input-inset">
+        <label class="item-input-wrapper">
+            <input ng-model="alarms">
+
+        </label>
+
+    </div>
+
+    <content has-header="true" has-subheader="true">
+        <list>
+            <item ng-repeat="point in points" type="item-text-wrap" href="#/employee/{{employee.id}}">
+                <h3>{{point.relationship_path}}</h3>
+                <p>{{point.data}}</p>
+            </item>
+            </item>
+        </list>
+    </content>
+
+</view>

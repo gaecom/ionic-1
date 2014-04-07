@@ -1,0 +1,27 @@
+{
+    "name": "Schedules-Parser",
+    "preferGlobal": true,
+    "version": "0.3.0",
+    "author": "MP",
+    "description": "It will Parse and Excel File and create SQL udpate statements ",
+    "contributors": [
+        {
+            "name": "",
+            "email": ""
+        }
+    ],
+    "main": "./lib/http-server",
+    "keywords": [
+        "",
+        "",
+        ""
+    ],
+    "dependencies" : {
+        "express": "*"
+    },
+    "analyze": true,
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.6"
+    }
+}

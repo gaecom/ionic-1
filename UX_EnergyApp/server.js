@@ -9,8 +9,11 @@ var server = http.createServer(app);
 
 var fs = require('fs');
 var url = require("url");
-var path = require('path');
 var mime = require('mime');
+var path = require('path');
+
+//app.use(express.static(__dirname)); // Current directory is root
+app.use(express.static(path.join(__dirname, 'www')));
 
 
 /*app.get("/", function (req,res){

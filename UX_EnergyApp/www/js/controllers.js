@@ -10,6 +10,7 @@ angular.module('directory.controllers', [])
         var primus = Primus.connect("ws://54.213.134.12:8080");
 
         $scope.searchKey = "";
+        $scope.points =[];
 
         $scope.clearSearch = function () {
             $scope.searchKey = "";
@@ -42,11 +43,28 @@ angular.module('directory.controllers', [])
             primus.on("newData", function(data){
 
                 console.log(data);
+                var temp;
 
-                $scope.points = [];
+                if( $scope.points.length == 0 )
+                {
+                    $scope.points = JSON.parse(data).values;
+                }
+                else
+                {
+                    temp= JSON.parse(data).values;
 
-                $scope.points = JSON.parse(data).values;
+                    for ( var i in temp)
+                    {
+                        for( var j in $scope.points)
+                        {
+                            if( temp[i].relationship_path === $scope.points[j].relationship_path)
+                            {
+                            $scope.points[j].data = temp[i].data
+                            }
+                        }
+                    }
 
+                }
 
 
                 $scope.$digest();

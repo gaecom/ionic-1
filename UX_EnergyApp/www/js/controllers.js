@@ -11,6 +11,7 @@ angular.module('directory.controllers', [])
 
         $scope.searchKey = "";
         $scope.points =[];
+        var a,b;
 
         $scope.clearSearch = function () {
             $scope.searchKey = "";
@@ -42,7 +43,7 @@ angular.module('directory.controllers', [])
 
             primus.on("newData", function(data){
 
-                console.log(data);
+                //console.log(data);
                 var temp;
 
                 if( $scope.points.length == 0 )
@@ -57,9 +58,19 @@ angular.module('directory.controllers', [])
                     {
                         for( var j in $scope.points)
                         {
-                            if( temp[i].relationship_path === $scope.points[j].relationship_path)
+
+
+                            a = temp[i].relationship_path;
+                            b = $scope.points[j].relationship_path;
+
+                            console.log("A " + a);
+
+                            console.log("B " + b);
+
+                            if( a[0] == b[0])
                             {
-                            $scope.points[j].data = temp[i].data
+                                console.log("equal");
+                                $scope.points[j].data[0] = temp[i].data[0]
                             }
                         }
                     }

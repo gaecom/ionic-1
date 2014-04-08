@@ -1,21 +1,12 @@
-<view title="'Meters'">
-
-    <!--<ion-pane ion-side-menu-content>-->
-
-        <!--<header class="bar bar-header bar-dark">-->
-            <!--<button class="button button-icon" >-->
-                <!--<i class="icon ion-navicon"></i>-->
-            <!--</button>-->
-            <!--</header>-->
-    <!--</ion-pane>-->
-
+<view title="'Employees'">
 
     <div class="bar bar-subheader item-input-inset">
         <label class="item-input-wrapper">
-            <input ng-model="alarms">
-
+            <i class="icon ion-ios7-search placeholder-icon"></i>
+            <input id="searchKey" type="search" placeholder="Search" ng-model="searchKey" autocorrect="off" >
+            <button class="button button-clear" ng-click="clearSearch()">X</button>
         </label>
-
+        <button class="button button-clear" ng-click="search()">Search</button>
     </div>
 
     <content has-header="true" has-subheader="true">
